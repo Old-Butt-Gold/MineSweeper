@@ -7,6 +7,7 @@ export class Game {
     private difficultySelect: HTMLSelectElement;
     private restartButton: HTMLButtonElement;
     private readonly gameContainer: HTMLDivElement;
+    private isFirstClick = true;
 
     private readonly difficulties = {
         easy: { size: 10, mines: 10 },
@@ -25,7 +26,7 @@ export class Game {
     }
 
     public init() {
-
+        this.isFirstClick = true;
         const { size, mines } = this.difficulties[this.difficultySelect.value];
         this.board = new Board(size, mines, this.handleCellClick.bind(this), this.handleCellRightClick.bind(this));
         this.board.renderBoard(this.gameContainer);
@@ -33,10 +34,19 @@ export class Game {
     }
 
     private handleCellClick(row: number, col: number) {
+        if (this.isFirstClick) {
+            while (this.board.getCell(row, col).mine) {
+                const { size, mines } = this.difficulties[this.difficultySelect.value];
+                this.board = new Board(size, mines, this.handleCellClick.bind(this), this.handleCellRightClick.bind(this));
+            }
+            this.isFirstClick = false;
+        }
+
         const cell = this.board.getCell(row, col);
         if (cell.revealed || cell.flagged) return;
 
         cell.revealed = true;
+
         if (cell.mine) {
             this.gameOver();
         } else {
