@@ -1,8 +1,9 @@
 import { Board } from './Board';
 import { Timer } from './Timer';
+import {Difficulty} from "./Difficulty.ts";
 
 export class Game {
-    private board: Board;
+    private board!: Board;
     private timer: Timer;
     private difficultySelect: HTMLSelectElement;
     private restartButton: HTMLButtonElement;
@@ -11,7 +12,7 @@ export class Game {
 
     private stateEndOfGame : string | null = null;
 
-    private readonly difficulties = {
+    private readonly difficulties: Record<string, Difficulty> = {
         easy: { size: 10, mines: 10 },
         medium: { size: 16, mines: 40 },
         hard: { size: 24, mines: 99 }
