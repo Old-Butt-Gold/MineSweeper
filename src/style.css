@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #2e2e2e;
+    color: #f0f0f0;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container .controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+#game {
+    display: grid;
+    grid-auto-flow: dense;
+    gap: 1px;
+    background-color: #444;
+    padding: 1px;
+}
+
+.container .cell {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #666;
+    cursor: pointer;
+}
+
+.container .cell.flagged {
+    background-color: #ffaa00;
+}
+
+.container .cell.opened {
+    background-color: #ccc;
+    color: green;
+    cursor: default;
+}
+
+.container .cell.color-1 {
+    color: blue;
+}
+
+.container .cell.color-2 {
+    color: green;
+}
+
+.container .cell.color-3 {
+    color: red;
+}
+
+.container .cell.color-4 {
+    color: navy;
+}
+
+.container .cell.color-5 {
+    color: brown;
+}
+
+.container .cell.color-6 {
+    color: turquoise;
+}
+
+.container .cell.color-7 {
+    color: black;
+}
+
+.container .cell.color-8 {
+    color: purple;
+}
+
+.container .cell.mine {
+    background-color: red;
+}
+
+#timer {
+    font-size: 2em;
+}
+
+.container button {
+    padding: 10px;
+    font-size: 1em;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.container button:hover {
+    background-color: #777;
+}
