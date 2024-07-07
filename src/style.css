@@ -31,7 +31,6 @@ body {
 
 #game {
     display: grid;
-    grid-auto-flow: dense;
     gap: 1px;
     background-color: #444;
     padding: 1px;
