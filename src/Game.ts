@@ -60,8 +60,9 @@ export class Game {
         } else {
             if (cell.adjacentMines === 0) {
                 this.board.revealEmptyCells(row, col);
+            } else {
+                this.board.renderCell(row, col);
             }
-            this.board.renderBoard(this.gameContainer);
             this.checkWin();
         }
     }
@@ -75,7 +76,7 @@ export class Game {
         if (cell.revealed) return;
 
         cell.flagged = !cell.flagged;
-        this.board.renderBoard(this.gameContainer);
+        this.board.renderCell(row, col);
     }
 
     private gameOver() {
@@ -83,7 +84,6 @@ export class Game {
         alert('Game Over!');
         this.stateEndOfGame = 'lost';
         this.board.revealAllMines();
-        this.board.renderBoard(this.gameContainer);
     }
 
     private checkWin() {
