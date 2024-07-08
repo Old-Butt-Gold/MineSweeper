@@ -4,7 +4,6 @@ export class Board {
     private readonly board: Cell[][];
     private readonly handleCellClick: (row: number, col: number) => void;
     private readonly handleCellRightClick: (row: number, col: number) => void;
-
     constructor(size: number, mineCount: number, handleCellClick: (row: number, col: number) => void, handleCellRightClick: (row: number, col: number) => void) {
         this.handleCellClick = handleCellClick;
         this.handleCellRightClick = handleCellRightClick;

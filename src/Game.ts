@@ -98,6 +98,7 @@ export class Game {
             this.timer.stop();
             this.stateEndOfGame = 'won';
             this.showDialog('You Win!');
+            this.board.revealAllMines();
         }
     }
 
