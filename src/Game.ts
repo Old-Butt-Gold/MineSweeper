@@ -81,9 +81,12 @@ export class Game {
 
     private gameOver() {
         this.timer.stop();
-        alert('Game Over!');
+        console.log(1);
         this.stateEndOfGame = 'lost';
         this.board.revealAllMines();
+        setTimeout(() => {
+            alert('Game Over!');
+        }, 1);
     }
 
     private checkWin() {
@@ -92,7 +95,9 @@ export class Game {
         if (unrevealedCells === mineCount) {
             this.timer.stop();
             this.stateEndOfGame = 'won';
-            alert('You win!');
+            setTimeout(() => {
+                alert('You Win!');
+            }, 1);
         }
     }
 }
