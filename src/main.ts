@@ -2,6 +2,12 @@ import './style.css';
 import {Game} from "./Game.ts";
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+    <div id="game-dialog" class="dialog">
+        <div class="dialog-content">
+            <p id="dialog-message"></p>
+            <button id="dialog-close">Close</button>
+        </div>
+    </div>
     <div class="container">
         <div class="controls">
             <select id="difficulty">

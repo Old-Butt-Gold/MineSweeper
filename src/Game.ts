@@ -26,6 +26,10 @@ export class Game {
 
         this.difficultySelect.addEventListener('change', () => this.init());
         this.restartButton.addEventListener('click', () => this.init());
+
+        document.querySelector<HTMLButtonElement>('#dialog-close')!.addEventListener('click', () => {
+            this.hideDialog();
+        });
     }
 
     public init() {
@@ -84,9 +88,7 @@ export class Game {
         console.log(1);
         this.stateEndOfGame = 'lost';
         this.board.revealAllMines();
-        setTimeout(() => {
-            alert('Game Over!');
-        }, 1);
+        this.showDialog('Game Over!')
     }
 
     private checkWin() {
@@ -95,9 +97,19 @@ export class Game {
         if (unrevealedCells === mineCount) {
             this.timer.stop();
             this.stateEndOfGame = 'won';
-            setTimeout(() => {
-                alert('You Win!');
-            }, 1);
+            this.showDialog('You Win!');
         }
+    }
+
+    private showDialog(message: string) {
+        const dialog = document.querySelector<HTMLDivElement>('#game-dialog')!;
+        const dialogMessage = document.querySelector<HTMLParagraphElement>('#dialog-message')!;
+        dialogMessage.textContent = message;
+        dialog.style.display = 'block';
+    }
+
+    private hideDialog() {
+        const dialog = document.querySelector<HTMLDivElement>('#game-dialog')!;
+        dialog.style.display = 'none';
     }
 }
