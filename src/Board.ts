@@ -55,24 +55,9 @@ export class Board {
             row.forEach((cell, c) => {
                 const cellDiv = document.createElement('div');
                 cellDiv.classList.add('cell');
+                cellDiv.classList.add(`cellRender-${r * this.board.length + c}`);
                 cellDiv.dataset.row = r.toString();
                 cellDiv.dataset.col = c.toString();
-
-                if (cell.revealed) {
-                    cellDiv.classList.add('opened');
-                    if (cell.mine) {
-                        cellDiv.classList.add('mine');
-                        cellDiv.innerText = '💣';
-                    } else {
-                        if (cell.adjacentMines > 0) {
-                            cellDiv.innerText = cell.adjacentMines.toString();
-                            cellDiv.classList.add(`color-${cell.adjacentMines}`);
-                        }
-                    }
-                } else if (cell.flagged) {
-                    cellDiv.classList.add('flagged');
-                    cellDiv.innerText = '🚩';
-                }
 
                 cellDiv.addEventListener('click', () => this.handleCellClick(r, c));
                 cellDiv.addEventListener('contextmenu', (e) => {
@@ -83,6 +68,30 @@ export class Board {
                 gameContainer.appendChild(cellDiv);
             });
         });
+    }
+
+    public renderCell(row: number, col: number) : void {
+        const cell = this.getCell(row, col);
+        const cellDiv = document.querySelector(`.cellRender-${row * this.board.length + col}`) as HTMLDivElement;
+        if (cell.revealed) {
+            cellDiv.classList.add('opened');
+            if (cell.mine) {
+                cellDiv.classList.add('mine');
+                cellDiv.innerText = '💣';
+            } else {
+                if (cell.adjacentMines > 0) {
+                    cellDiv.innerText = cell.adjacentMines.toString();
+                    cellDiv.classList.add(`color-${cell.adjacentMines}`);
+                }
+            }
+        } else {
+            cellDiv.classList.remove('opened', 'mine', 'flagged', 'color-1', 'color-2', 'color-3', 'color-4', 'color-5', 'color-6', 'color-7', 'color-8');
+            cellDiv.innerText = '';
+            if (cell.flagged) {
+                cellDiv.classList.add('flagged');
+                cellDiv.innerText = '🚩';
+            }
+        }
     }
 
     public getCell(row: number, col: number): Cell {
@@ -96,6 +105,8 @@ export class Board {
             [1, -1], [1, 0], [1, 1]
         ];
 
+        this.renderCell(row, col);
+
         const stack = [[row, col]];
         while (stack.length > 0) {
             const [r, c] = stack.pop()!;
@@ -103,6 +114,8 @@ export class Board {
                 const nr = r + dr, nc = c + dc;
                 if (this.board[nr] && this.board[nc] && !this.board[nr][nc].revealed && !this.board[nr][nc].flagged) {
                     this.board[nr][nc].revealed = true;
+                    this.renderCell(nr, nc);
+
                     if (this.board[nr][nc].adjacentMines === 0) {
                         stack.push([nr, nc]);
                     }
@@ -112,8 +125,13 @@ export class Board {
     }
 
     public revealAllMines() {
-        this.board.flat().forEach(cell => {
-            if (cell.mine) cell.revealed = true;
+        this.board.flat().forEach((cell, idx) => {
+            if (cell.mine) {
+                cell.revealed = true;
+                const row = Math.floor(idx / this.board.length);
+                const col = idx % this.board.length;
+                this.renderCell(row, col);
+            }
         });
     }
 
